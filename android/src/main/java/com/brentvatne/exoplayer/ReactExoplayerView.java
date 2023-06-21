@@ -90,6 +90,9 @@ import com.google.android.exoplayer2.source.dash.manifest.DashManifest;
 import com.google.android.exoplayer2.source.dash.manifest.Period;
 import com.google.android.exoplayer2.source.dash.manifest.AdaptationSet;
 import com.google.android.exoplayer2.source.dash.manifest.Representation;
+import com.google.android.exoplayer2.playerNotificationManager;
+import com.google.android.exoplayer2.playerNotificationManager.MediaDescriptionAdapter;
+
 
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.source.ads.AdsMediaSource;
@@ -150,6 +153,34 @@ class ReactExoplayerView extends FrameLayout implements
 
     private DataSource.Factory mediaDataSourceFactory;
     private ExoPlayer player;
+    private PlayerNotificationManager playerNotificationManager;
+    private int notificationId = 1203;
+    private PlayerNotificationManager.MediaDescriptionAdapter mediaDescriptionAdapter = new PlayerNotificationManager.MediaDescriptionAdapter() {
+    @Override
+    public String getCurrentSubText(Player player) {
+        return "Sub text";
+    }
+
+    @Override
+    public String getCurrentContentTitle(Player player) {
+        return "Title";
+    }
+
+    @Override
+    public PendingIntent createCurrentContentIntent(Player player) {
+        return null;
+    }
+
+    @Override
+    public String getCurrentContentText(Player player) {
+        return "ContentText";
+    }
+
+    @Override
+    public Bitmap getCurrentLargeIcon(Player player, PlayerNotificationManager.BitmapCallback callback) {
+        return null;
+    }
+};
     private DefaultTrackSelector trackSelector;
     private boolean playerNeedsSource;
 
@@ -649,6 +680,17 @@ class ReactExoplayerView extends FrameLayout implements
         bandwidthMeter.addEventListener(new Handler(), self);
         setPlayWhenReady(!isPaused);
         playerNeedsSource = true;
+
+        playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(this, "My_channel_id"," R.string.channel_name", notificationId, mediaDescriptionAdapter, new PlayerNotificationManager.NotificationListener() {
+            @Override
+            public void onNotificationPosted(int notificationId, Notification notification, boolean ongoing) {
+            }
+    
+            @Override
+            public void onNotificationCancelled(int notificationId, boolean dismissedByUser) {
+            }
+        });
+        playerNotificationManager.setPlayer(playerplayer);
 
         PlaybackParameters params = new PlaybackParameters(rate, 1f);
         player.setPlaybackParameters(params);
