@@ -90,8 +90,7 @@ import com.google.android.exoplayer2.source.dash.manifest.DashManifest;
 import com.google.android.exoplayer2.source.dash.manifest.Period;
 import com.google.android.exoplayer2.source.dash.manifest.AdaptationSet;
 import com.google.android.exoplayer2.source.dash.manifest.Representation;
-import com.google.android.exoplayer2.playerNotificationManager;
-import com.google.android.exoplayer2.playerNotificationManager.MediaDescriptionAdapter;
+import com.google.android.exoplayer2.ui.PlayerNotificationManager;
 
 
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
